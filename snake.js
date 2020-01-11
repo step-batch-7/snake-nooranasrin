@@ -52,6 +52,17 @@ class Snake {
   }
 }
 
+class Food {
+  constructor(colId, rowId) {
+    this.colId = colId;
+    this.rowId = rowId;
+  }
+
+  get position() {
+    return [this.colId, this.rowId];
+  }
+}
+
 const NUM_OF_COLS = 100;
 const NUM_OF_ROWS = 60;
 
@@ -92,6 +103,12 @@ const drawSnake = function(snake) {
   });
 };
 
+const drawFood = function(food) {
+  let [colId, rowId] = food.position;
+  const cell = getCell(colId, rowId);
+  cell.classList.add('food');
+};
+
 const handleKeyPress = snake => {
   snake.turnLeft();
 };
@@ -106,41 +123,47 @@ const attachEventListeners = snake => {
   document.body.onkeydown = handleKeyPress.bind(null, snake);
 };
 
-const main = function() {
-  const snake = new Snake(
-    [
+const initSnake = (direction, species) => {
+  const snakePosition = {
+    snake: [
       [40, 25],
       [41, 25],
       [42, 25]
     ],
-    new Direction(EAST),
-    'snake'
-  );
-
-  const ghostSnake = new Snake(
-    [
+    ghost: [
       [40, 30],
       [41, 30],
       [42, 30]
-    ],
-    new Direction(SOUTH),
-    'ghost'
-  );
+    ]
+  };
+  return new Snake(snakePosition[species], new Direction(direction), species);
+};
 
+const setup = (snake, ghostSnake, food) => {
   attachEventListeners(snake);
   createGrids();
   drawSnake(snake);
   drawSnake(ghostSnake);
+  drawFood(food);
+};
 
-  setInterval(() => {
-    moveAndDrawSnake(snake);
-    moveAndDrawSnake(ghostSnake);
-  }, 200);
+const animateSnakes = (snake, ghostSnake) => {
+  moveAndDrawSnake(snake);
+  moveAndDrawSnake(ghostSnake);
+};
 
-  setInterval(() => {
-    let x = Math.random() * 100;
-    if (x > 50) {
-      ghostSnake.turnLeft();
-    }
-  }, 500);
+const randomlyTurnSnake = snake => {
+  let x = Math.random() * 100;
+  if (x > 50) {
+    snake.turnLeft();
+  }
+};
+
+const main = function() {
+  const snake = initSnake(EAST, 'snake');
+  const ghostSnake = initSnake(SOUTH, 'ghost');
+  const food = new Food(5, 5);
+  setup(snake, ghostSnake, food);
+  setInterval(animateSnakes, 200, snake, ghostSnake);
+  setInterval(randomlyTurnSnake, 500, ghostSnake);
 };
