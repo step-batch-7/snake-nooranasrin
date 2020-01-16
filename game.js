@@ -15,4 +15,8 @@ class Game {
     const food = { location: [this.food.colId, this.food.rowId] };
     return { snake, ghostSnake, food };
   }
+
+  moveSnake() {
+    this.snake.turnLeft();
+  }
 }

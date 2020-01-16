@@ -1,8 +1,3 @@
-const EAST = 0;
-const NORTH = 1;
-const WEST = 2;
-const SOUTH = 3;
-
 const NUM_OF_COLS = 100;
 const NUM_OF_ROWS = 60;
 
@@ -49,18 +44,14 @@ const drawFood = function(food) {
   cell.classList.add('food');
 };
 
-const handleKeyPress = snake => {
-  snake.turnLeft();
-};
-
 const moveAndDrawSnake = function(snake) {
   snake.move();
   eraseTail(snake);
   drawSnake(snake);
 };
 
-const attachEventListeners = snake => {
-  document.body.onkeydown = handleKeyPress.bind(null, snake);
+const attachEventListeners = game => {
+  document.body.onkeydown = () => game.moveSnake();
 };
 
 const initSnake = (direction, species) => {
@@ -80,7 +71,7 @@ const initSnake = (direction, species) => {
 };
 
 const setup = game => {
-  attachEventListeners(game.snake);
+  attachEventListeners(game);
   createGrids();
   const status = game.currentStatus;
   drawSnake(status.snake);
