@@ -45,16 +45,20 @@ const drawFood = function(food) {
 };
 
 const eraseFood = function(game) {
+  const [colId, rowId] = game.previousFoodPosition;
+  const previousCell = getCell(colId, rowId);
+  previousCell.classList.remove('food');
+};
+
+const renderFood = function(game) {
   let [colId, rowId] = game.foodLocation;
   const cell = getCell(colId, rowId);
   if (![...cell.classList].includes('food')) {
     cell.classList.add('food');
-    [colId, rowId] = game.previousFoodPosition;
-    const previousCell = getCell(colId, rowId);
-    previousCell.classList.remove('food');
+    eraseFood(game);
+    const status = game.currentStatus;
+    drawFood(status.food);
   }
-  const status = game.currentStatus;
-  drawFood(status.food);
 };
 
 const rearrangeSetup = function(game) {
@@ -64,7 +68,7 @@ const rearrangeSetup = function(game) {
     eraseTail(status[species]);
     drawSnake(status[species]);
   });
-  eraseFood(game);
+  renderFood(game);
 };
 
 const animateSnakes = game => {
