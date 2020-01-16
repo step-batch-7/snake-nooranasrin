@@ -50,4 +50,8 @@ class Game {
     const newFood = new Food(colId, rowId);
     this.food = newFood;
   }
+
+  growSnake() {
+    this.snake.grow();
+  }
 }

@@ -32,4 +32,8 @@ class Snake {
     const [deltaX, deltaY] = this.direction.delta;
     this.positions.push([headX + deltaX, headY + deltaY]);
   }
+
+  grow() {
+    this.positions.unshift(this.previousTail);
+  }
 }

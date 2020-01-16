@@ -52,12 +52,13 @@ const eraseFood = function(game) {
     game.generateNewFood();
     const status = game.currentStatus;
     drawFood(status.food);
+    game.growSnake();
   }
 };
 
 const moveAndDrawSnake = function(game, moveSpecies, species) {
-  game[moveSpecies]();
   eraseFood(game);
+  game[moveSpecies]();
   eraseTail(species);
   drawSnake(species);
 };
