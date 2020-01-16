@@ -43,4 +43,11 @@ class Game {
   get foodLocation() {
     return this.food.position;
   }
+
+  generateNewFood() {
+    const colId = Math.floor(Math.random() * 90);
+    const rowId = Math.floor(Math.random() * 50);
+    const newFood = new Food(colId, rowId);
+    this.food = newFood;
+  }
 }

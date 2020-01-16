@@ -49,6 +49,9 @@ const eraseFood = function(game) {
     const [colId, rowId] = game.foodLocation;
     const cell = getCell(colId, rowId);
     cell.classList.remove('food');
+    game.generateNewFood();
+    const status = game.currentStatus;
+    drawFood(status.food);
   }
 };
 
