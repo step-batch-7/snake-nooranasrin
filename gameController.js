@@ -28,13 +28,13 @@ const createGrids = function() {
 const eraseTail = function(snake) {
   let [colId, rowId] = snake.previousTail;
   const cell = getCell(colId, rowId);
-  cell.classList.remove(snake.species);
+  cell.classList.remove(snake.type);
 };
 
 const drawSnake = function(snake) {
   snake.location.forEach(([colId, rowId]) => {
     const cell = getCell(colId, rowId);
-    cell.classList.add(snake.species);
+    cell.classList.add(snake.type);
   });
 };
 
@@ -44,16 +44,25 @@ const drawFood = function(food) {
   cell.classList.add('food');
 };
 
-const moveAndDrawSnake = function(snake) {
-  snake.move();
-  eraseTail(snake);
-  drawSnake(snake);
+const eraseFood = function(game) {
+  if (game.isSnakeGotFood()) {
+    const [colId, rowId] = game.foodLocation;
+    const cell = getCell(colId, rowId);
+    cell.classList.remove('food');
+  }
+};
+
+const moveAndDrawSnake = function(game, moveSpecies, species) {
+  game[moveSpecies]();
+  eraseFood(game);
+  eraseTail(species);
+  drawSnake(species);
 };
 
 const handleKeyPress = function(event, game) {
   const keyMap = { 37: 'turnLeft', 39: 'turnRight' };
   const turnDirection = keyMap[event.keyCode];
-  turnDirection && game.moveSnake(turnDirection);
+  turnDirection && game.turnSnake(turnDirection, 'snake');
 };
 
 const attachEventListeners = game => {
@@ -85,15 +94,16 @@ const setup = game => {
   drawFood(status.food);
 };
 
-const animateSnakes = (snake, ghostSnake) => {
-  moveAndDrawSnake(snake);
-  moveAndDrawSnake(ghostSnake);
+const animateSnakes = game => {
+  const status = game.currentStatus;
+  moveAndDrawSnake(game, 'moveSnake', status.snake);
+  moveAndDrawSnake(game, 'moveGhostSnake', status.ghostSnake);
 };
 
-const randomlyTurnSnake = snake => {
+const randomlyTurnSnake = game => {
   let x = Math.random() * 100;
   if (x > 50) {
-    snake.turnLeft();
+    game.turnSnake('turnLeft', 'ghostSnake');
   }
 };
 
@@ -103,6 +113,6 @@ const main = function() {
   const food = new Food(5, 5);
   const game = new Game(snake, ghostSnake, food);
   setup(game);
-  setInterval(animateSnakes, 200, snake, ghostSnake);
-  setInterval(randomlyTurnSnake, 500, ghostSnake);
+  setInterval(animateSnakes, 200, game);
+  setInterval(randomlyTurnSnake, 500, game);
 };

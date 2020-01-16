@@ -24,4 +24,8 @@ class Direction {
   turnRight() {
     this.heading = (this.heading + 3) % 4;
   }
+
+  get head() {
+    return this.heading;
+  }
 }

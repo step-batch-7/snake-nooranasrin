@@ -1,3 +1,9 @@
+const areTwoPointsEqual = function(snakeHead, foodLocation) {
+  const [colId1, rowId1] = snakeHead;
+  const [colId2, rowId2] = foodLocation;
+  return colId1 === colId2 && rowId1 === rowId2;
+};
+
 class Game {
   constructor(snake, ghostSnake, food) {
     this.snake = snake;
@@ -16,7 +22,25 @@ class Game {
     return { snake, ghostSnake, food };
   }
 
-  moveSnake(turnDirection) {
-    this.snake[turnDirection]();
+  turnSnake(turnDirection, species) {
+    this[species][turnDirection]();
+  }
+
+  moveSnake() {
+    this.snake.move();
+  }
+
+  moveGhostSnake() {
+    this.ghostSnake.move();
+  }
+
+  isSnakeGotFood() {
+    const snakeHead = this.snake.getHead();
+    const foodLocation = this.food.position;
+    return areTwoPointsEqual(snakeHead, foodLocation);
+  }
+
+  get foodLocation() {
+    return this.food.position;
   }
 }

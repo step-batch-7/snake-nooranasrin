@@ -22,6 +22,10 @@ class Snake {
     this.direction.turnRight();
   }
 
+  getHead() {
+    return this.positions[1];
+  }
+
   move() {
     const [headX, headY] = this.positions[this.positions.length - 1];
     this.previousTail = this.positions.shift();
