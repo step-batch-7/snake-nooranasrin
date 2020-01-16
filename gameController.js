@@ -50,8 +50,14 @@ const moveAndDrawSnake = function(snake) {
   drawSnake(snake);
 };
 
+const handleKeyPress = function(event, game) {
+  const keyMap = { 37: 'turnLeft', 39: 'turnRight' };
+  const turnDirection = keyMap[event.keyCode];
+  turnDirection && game.moveSnake(turnDirection);
+};
+
 const attachEventListeners = game => {
-  document.body.onkeydown = () => game.moveSnake();
+  document.body.onkeydown = () => handleKeyPress(event, game);
 };
 
 const initSnake = (direction, species) => {

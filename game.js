@@ -16,7 +16,7 @@ class Game {
     return { snake, ghostSnake, food };
   }
 
-  moveSnake() {
-    this.snake.turnLeft();
+  moveSnake(turnDirection) {
+    this.snake[turnDirection]();
   }
 }

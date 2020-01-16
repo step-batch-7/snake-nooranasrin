@@ -18,12 +18,14 @@ class Snake {
     this.direction.turnLeft();
   }
 
+  turnRight() {
+    this.direction.turnRight();
+  }
+
   move() {
     const [headX, headY] = this.positions[this.positions.length - 1];
     this.previousTail = this.positions.shift();
-
     const [deltaX, deltaY] = this.direction.delta;
-
     this.positions.push([headX + deltaX, headY + deltaY]);
   }
 }
