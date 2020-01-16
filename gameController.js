@@ -45,22 +45,31 @@ const drawFood = function(food) {
 };
 
 const eraseFood = function(game) {
-  if (game.isSnakeGotFood()) {
-    const [colId, rowId] = game.foodLocation;
-    const cell = getCell(colId, rowId);
-    cell.classList.remove('food');
-    game.generateNewFood();
-    const status = game.currentStatus;
-    drawFood(status.food);
-    game.growSnake();
+  let [colId, rowId] = game.foodLocation;
+  const cell = getCell(colId, rowId);
+  if (![...cell.classList].includes('food')) {
+    cell.classList.add('food');
+    [colId, rowId] = game.previousFoodPosition;
+    const previousCell = getCell(colId, rowId);
+    previousCell.classList.remove('food');
   }
+  const status = game.currentStatus;
+  drawFood(status.food);
 };
 
-const moveAndDrawSnake = function(game, moveSpecies, species) {
+const rearrangeSetup = function(game) {
+  const types = ['snake', 'ghostSnake'];
+  const status = game.currentStatus;
+  types.forEach(species => {
+    eraseTail(status[species]);
+    drawSnake(status[species]);
+  });
   eraseFood(game);
-  game[moveSpecies]();
-  eraseTail(species);
-  drawSnake(species);
+};
+
+const animateSnakes = game => {
+  game.update();
+  rearrangeSetup(game);
 };
 
 const handleKeyPress = function(event, game) {
@@ -98,12 +107,6 @@ const setup = game => {
   drawFood(status.food);
 };
 
-const animateSnakes = game => {
-  const status = game.currentStatus;
-  moveAndDrawSnake(game, 'moveSnake', status.snake);
-  moveAndDrawSnake(game, 'moveGhostSnake', status.ghostSnake);
-};
-
 const randomlyTurnSnake = game => {
   let x = Math.random() * 100;
   if (x > 50) {
@@ -114,7 +117,7 @@ const randomlyTurnSnake = game => {
 const main = function() {
   const snake = initSnake(EAST, 'snake');
   const ghostSnake = initSnake(SOUTH, 'ghost');
-  const food = new Food(5, 5);
+  const food = new Food(5, 5, [5, 5]);
   const game = new Game(snake, ghostSnake, food);
   setup(game);
   setInterval(animateSnakes, 200, game);

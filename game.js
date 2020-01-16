@@ -44,14 +44,24 @@ class Game {
     return this.food.position;
   }
 
+  get previousFoodPosition() {
+    return this.food.getPreviousFoodPosition();
+  }
+
   generateNewFood() {
-    const colId = Math.floor(Math.random() * 90);
-    const rowId = Math.floor(Math.random() * 50);
-    const newFood = new Food(colId, rowId);
+    const colId = Math.floor(Math.random() * NUM_OF_COLS);
+    const rowId = Math.floor(Math.random() * NUM_OF_ROWS);
+    const previousFoodPosition = [...this.food.position];
+    const newFood = new Food(colId, rowId, previousFoodPosition);
     this.food = newFood;
   }
 
-  growSnake() {
-    this.snake.grow();
+  update() {
+    this.moveSnake();
+    this.moveGhostSnake();
+    if (this.isSnakeGotFood()) {
+      this.generateNewFood();
+      this.snake.grow();
+    }
   }
 }
