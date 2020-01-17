@@ -52,9 +52,14 @@ class Snake {
     this.#positions.unshift(this.#previousTail);
   }
 
-  touchAnotherSnake(otherSnake) {
-    return this.#positions.some(position =>
-      areTwoPointsEqual(position, otherSnake.getHead())
-    );
+  isTouchTheBody() {
+    const head = this.getHead();
+    const body = this.location.slice(0, -1);
+    return body.some(position => areTwoPointsEqual(head, position));
+  }
+
+  isTouchAnotherSnake(otherSnake) {
+    const head = otherSnake.getHead();
+    return this.#positions.some(position => areTwoPointsEqual(position, head));
   }
 }

@@ -60,13 +60,17 @@ class Game {
   }
 
   hasTouchTheGhostSnake() {
-    const isGhostTouchSnake = this.#snake.touchAnotherSnake(this.#ghostSnake);
-    const isSnakeTouchGhost = this.#ghostSnake.touchAnotherSnake(this.#snake);
+    const isGhostTouchSnake = this.#snake.isTouchAnotherSnake(this.#ghostSnake);
+    const isSnakeTouchGhost = this.#ghostSnake.isTouchAnotherSnake(this.#snake);
     return isGhostTouchSnake || isSnakeTouchGhost;
   }
 
   isGameOver() {
-    return this.#snake.hasTouchTheWall() || this.hasTouchTheGhostSnake();
+    return (
+      this.#snake.hasTouchTheWall() ||
+      this.hasTouchTheGhostSnake() ||
+      this.#snake.isTouchTheBody()
+    );
   }
 
   get newScore() {
