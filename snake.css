@@ -8,11 +8,13 @@ h1 {
   margin: 0 auto;
   flex-wrap: wrap;
   border: 1px solid black;
+  background-color: rgb(241, 226, 206);
 }
 
 .cell {
   width: 8px;
   height: 8px;
+  border-radius: 2px;
 }
 
 .snake {
@@ -20,11 +22,11 @@ h1 {
 }
 
 .ghost {
-  background-color: gray;
+  background-color: rgb(201, 18, 18);
 }
 
 .food {
-  background-color: red;
+  background-color: rgb(10, 105, 30);
 }
 
 #scoreDisplay {
