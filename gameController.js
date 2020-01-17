@@ -79,7 +79,7 @@ const animateSnakes = game => {
 const handleKeyPress = function(event, game) {
   const keyMap = { 37: 'turnLeft', 39: 'turnRight' };
   const turnDirection = keyMap[event.keyCode];
-  turnDirection && game.turnSnake(turnDirection, 'snake');
+  turnDirection && game.turnSnake(turnDirection);
 };
 
 const attachEventListeners = game => {
@@ -114,7 +114,7 @@ const setup = game => {
 const randomlyTurnSnake = game => {
   let x = Math.random() * 100;
   if (x > 50) {
-    game.turnSnake('turnLeft', 'ghostSnake');
+    game.turnGhostSnake();
   }
 };
 

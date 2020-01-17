@@ -5,63 +5,62 @@ const areTwoPointsEqual = function(snakeHead, foodLocation) {
 };
 
 class Game {
+  #snake;
+  #ghostSnake;
+  #food;
   constructor(snake, ghostSnake, food) {
-    this.snake = snake;
-    this.ghostSnake = ghostSnake;
-    this.food = food;
+    this.#snake = snake;
+    this.#ghostSnake = ghostSnake;
+    this.#food = food;
   }
 
   get currentStatus() {
-    const snake = { location: this.snake.location.slice() };
-    snake.type = this.snake.type;
-    snake.previousTail = this.snake.previousTail.slice();
-    const ghostSnake = { location: this.ghostSnake.location.slice() };
-    ghostSnake.type = this.ghostSnake.type;
-    ghostSnake.previousTail = this.ghostSnake.previousTail.slice();
-    const food = { location: [this.food.colId, this.food.rowId] };
+    const snake = { location: this.#snake.location };
+    snake.type = this.#snake.species;
+    snake.previousTail = this.#snake.previousTailPosition;
+    const ghostSnake = { location: this.#ghostSnake.location };
+    ghostSnake.type = this.#ghostSnake.species;
+    ghostSnake.previousTail = this.#ghostSnake.previousTailPosition;
+    const food = { location: [...this.#food.position] };
     return { snake, ghostSnake, food };
   }
 
-  turnSnake(turnDirection, species) {
-    this[species][turnDirection]();
+  turnSnake(turnDirection) {
+    this.#snake[turnDirection]();
   }
 
-  moveSnake() {
-    this.snake.move();
-  }
-
-  moveGhostSnake() {
-    this.ghostSnake.move();
+  turnGhostSnake() {
+    this.#ghostSnake.turnRight();
   }
 
   isSnakeGotFood() {
-    const snakeHead = this.snake.getHead();
-    const foodLocation = this.food.position;
+    const snakeHead = this.#snake.getHead();
+    const foodLocation = this.#food.position;
     return areTwoPointsEqual(snakeHead, foodLocation);
   }
 
   get foodLocation() {
-    return this.food.position;
+    return this.#food.position;
   }
 
   get previousFoodPosition() {
-    return this.food.getPreviousFoodPosition();
+    return this.#food.getPreviousFoodPosition();
   }
 
   generateNewFood() {
     const colId = Math.floor(Math.random() * NUM_OF_COLS);
     const rowId = Math.floor(Math.random() * NUM_OF_ROWS);
-    const previousFoodPosition = [...this.food.position];
+    const previousFoodPosition = [...this.#food.position];
     const newFood = new Food(colId, rowId, previousFoodPosition);
-    this.food = newFood;
+    this.#food = newFood;
   }
 
   update() {
-    this.moveSnake();
-    this.moveGhostSnake();
+    this.#snake.move();
+    this.#ghostSnake.move();
     if (this.isSnakeGotFood()) {
       this.generateNewFood();
-      this.snake.grow();
+      this.#snake.grow();
     }
   }
 }
