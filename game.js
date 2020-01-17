@@ -8,10 +8,12 @@ class Game {
   #snake;
   #ghostSnake;
   #food;
-  constructor(snake, ghostSnake, food) {
+  #score;
+  constructor(snake, ghostSnake, food, score) {
     this.#snake = snake;
     this.#ghostSnake = ghostSnake;
     this.#food = food;
+    this.#score = score;
   }
 
   get currentStatus() {
@@ -61,6 +63,11 @@ class Game {
     if (this.isSnakeGotFood()) {
       this.generateNewFood();
       this.#snake.grow();
+      this.#score.updateScore(5);
     }
+  }
+
+  get newScore() {
+    return this.#score.newScore;
   }
 }
