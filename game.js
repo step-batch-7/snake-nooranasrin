@@ -68,7 +68,7 @@ class Game {
   }
 
   isOver() {
-    return this.#snake.hasTouchTheWall();
+    return this.#snake.hasTouchTheWall() || this.#ghostSnake.hasTouchTheWall();
   }
 
   get newScore() {
