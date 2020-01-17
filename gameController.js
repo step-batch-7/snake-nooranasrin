@@ -77,14 +77,6 @@ const rearrangeSetup = function(game) {
   displayScore(game);
 };
 
-// const animateSnakes = game => {
-//   if (game.isOver()) {
-//     console.log('over');
-//   }
-//   game.update();
-//   rearrangeSetup(game);
-// };
-
 const handleKeyPress = function(event, game) {
   const keyMap = { 37: 'turnLeft', 39: 'turnRight' };
   const turnDirection = keyMap[event.keyCode];
@@ -124,7 +116,7 @@ const startGame = function(game) {
   let timeInterval;
   timeInterval = setInterval(() => {
     game.update();
-    if (game.isOver()) {
+    if (game.isGameOver()) {
       return clearInterval(timeInterval);
     }
     rearrangeSetup(game);

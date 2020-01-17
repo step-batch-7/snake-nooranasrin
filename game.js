@@ -59,8 +59,14 @@ class Game {
     }
   }
 
-  isOver() {
-    return this.#snake.hasTouchTheWall();
+  hasTouchTheGhostSnake() {
+    const isGhostTouchSnake = this.#snake.touchAnotherSnake(this.#ghostSnake);
+    const isSnakeTouchGhost = this.#ghostSnake.touchAnotherSnake(this.#snake);
+    return isGhostTouchSnake || isSnakeTouchGhost;
+  }
+
+  isGameOver() {
+    return this.#snake.hasTouchTheWall() || this.hasTouchTheGhostSnake();
   }
 
   get newScore() {

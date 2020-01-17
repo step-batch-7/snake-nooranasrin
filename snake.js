@@ -36,9 +36,9 @@ class Snake {
 
   hasTouchTheWall() {
     const [headX, headY] = [...this.getHead()];
-    return (
-      headX < 0 || headX >= NUM_OF_COLS || headY < 0 || headY >= NUM_OF_ROWS
-    );
+    const isCrossedHorizontalBoundary = headX < 0 || headX >= NUM_OF_COLS;
+    const isCrossedVerticalBoundary = headY < 0 || headY >= NUM_OF_ROWS;
+    return isCrossedHorizontalBoundary || isCrossedVerticalBoundary;
   }
 
   move() {
@@ -50,5 +50,11 @@ class Snake {
 
   grow() {
     this.#positions.unshift(this.#previousTail);
+  }
+
+  touchAnotherSnake(otherSnake) {
+    return this.#positions.some(position =>
+      areTwoPointsEqual(position, otherSnake.getHead())
+    );
   }
 }
