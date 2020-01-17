@@ -44,9 +44,8 @@ const drawFood = function(food) {
   cell.classList.add('food');
 };
 
-const eraseFood = function(game) {
-  const [colId, rowId] = game.previousFoodPosition;
-  const previousCell = getCell(colId, rowId);
+const eraseFood = function() {
+  const previousCell = document.querySelector('.food');
   previousCell.classList.remove('food');
 };
 
@@ -59,8 +58,8 @@ const renderFood = function(game) {
   let [colId, rowId] = game.foodLocation;
   const cell = getCell(colId, rowId);
   if (![...cell.classList].includes('food')) {
-    cell.classList.add('food');
     eraseFood(game);
+    cell.classList.add('food');
     const status = game.currentStatus;
     drawFood(status.food);
   }
@@ -133,7 +132,7 @@ const randomlyTurnSnake = game => {
 const main = function() {
   const snake = initSnake(EAST, 'snake');
   const ghostSnake = initSnake(SOUTH, 'ghost');
-  const food = new Food(5, 5, [5, 5]);
+  const food = new Food(5, 5);
   const score = new Score();
   const game = new Game(snake, ghostSnake, food, score);
   setup(game);

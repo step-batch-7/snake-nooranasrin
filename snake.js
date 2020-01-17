@@ -34,7 +34,7 @@ class Snake {
     return this.#previousTail.slice();
   }
 
-  hasTouchTheWall() {
+  isTouchTheWall() {
     const [headX, headY] = [...this.getHead()];
     const isCrossedHorizontalBoundary = headX < 0 || headX >= NUM_OF_COLS;
     const isCrossedVerticalBoundary = headY < 0 || headY >= NUM_OF_ROWS;

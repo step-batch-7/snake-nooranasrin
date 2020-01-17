@@ -45,35 +45,37 @@ class Game {
     return this.#food.position;
   }
 
-  get previousFoodPosition() {
-    return this.#food.getPreviousFoodPosition();
+  generateNewFood() {
+    const colId = Math.floor(Math.random() * NUM_OF_COLS);
+    const rowId = Math.floor(Math.random() * NUM_OF_ROWS);
+    this.#food = new Food(colId, rowId);
   }
 
   update() {
     this.#snake.move();
     this.#ghostSnake.move();
     if (this.isSnakeGotFood()) {
-      this.#food.update();
+      this.generateNewFood();
       this.#snake.grow();
       this.#score.updateScore(5);
     }
   }
 
-  hasTouchTheGhostSnake() {
+  isSnakeTouchTheGhostSnake() {
     const isGhostTouchSnake = this.#snake.isTouchAnotherSnake(this.#ghostSnake);
     const isSnakeTouchGhost = this.#ghostSnake.isTouchAnotherSnake(this.#snake);
     return isGhostTouchSnake || isSnakeTouchGhost;
   }
 
   isGameOver() {
-    return (
-      this.#snake.hasTouchTheWall() ||
-      this.hasTouchTheGhostSnake() ||
-      this.#snake.isTouchTheBody()
-    );
+    const isSnakeTouchTheWall = this.#snake.isTouchTheWall();
+    const isSnakeTouchGhostSnake = this.isSnakeTouchTheGhostSnake();
+    const isSnakeTouchItself = this.#snake.isTouchTheBody();
+    return isSnakeTouchTheWall || isSnakeTouchGhostSnake || isSnakeTouchItself;
   }
 
   get newScore() {
     return this.#score.newScore;
   }
+  x;
 }
