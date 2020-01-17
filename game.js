@@ -67,6 +67,10 @@ class Game {
     }
   }
 
+  isOver() {
+    return this.#snake.hasTouchTheWall();
+  }
+
   get newScore() {
     return this.#score.newScore;
   }

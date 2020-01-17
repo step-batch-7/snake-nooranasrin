@@ -77,10 +77,13 @@ const rearrangeSetup = function(game) {
   displayScore(game);
 };
 
-const animateSnakes = game => {
-  game.update();
-  rearrangeSetup(game);
-};
+// const animateSnakes = game => {
+//   if (game.isOver()) {
+//     console.log('over');
+//   }
+//   game.update();
+//   rearrangeSetup(game);
+// };
 
 const handleKeyPress = function(event, game) {
   const keyMap = { 37: 'turnLeft', 39: 'turnRight' };
@@ -117,6 +120,17 @@ const setup = game => {
   drawFood(status.food);
 };
 
+const startGame = function(game) {
+  let timeInterval;
+  timeInterval = setInterval(() => {
+    game.update();
+    if (game.isOver()) {
+      return clearInterval(timeInterval);
+    }
+    rearrangeSetup(game);
+  }, 150);
+};
+
 const randomlyTurnSnake = game => {
   let x = Math.random() * 100;
   if (x > 50) {
@@ -131,6 +145,6 @@ const main = function() {
   const score = new Score();
   const game = new Game(snake, ghostSnake, food, score);
   setup(game);
-  setInterval(animateSnakes, 200, game);
-  setInterval(randomlyTurnSnake, 500, game);
+  startGame(game);
+  setInterval(randomlyTurnSnake, 1000, game);
 };

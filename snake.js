@@ -27,11 +27,18 @@ class Snake {
   }
 
   getHead() {
-    return this.#positions[1];
+    return this.#positions[this.#positions.length - 1];
   }
 
   get previousTailPosition() {
     return this.#previousTail.slice();
+  }
+
+  hasTouchTheWall() {
+    const [headX, headY] = [...this.getHead()];
+    return (
+      headX < 0 || headX >= NUM_OF_COLS || headY < 0 || headY >= NUM_OF_ROWS
+    );
   }
 
   move() {
