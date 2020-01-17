@@ -15,4 +15,10 @@ class Food {
   getPreviousFoodPosition() {
     return this.#previousFoodPosition;
   }
+
+  update() {
+    this.#previousFoodPosition = [...this.position];
+    this.#colId = Math.floor(Math.random() * NUM_OF_COLS);
+    this.#rowId = Math.floor(Math.random() * NUM_OF_ROWS);
+  }
 }

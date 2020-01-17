@@ -49,26 +49,18 @@ class Game {
     return this.#food.getPreviousFoodPosition();
   }
 
-  generateNewFood() {
-    const colId = Math.floor(Math.random() * NUM_OF_COLS);
-    const rowId = Math.floor(Math.random() * NUM_OF_ROWS);
-    const previousFoodPosition = [...this.#food.position];
-    const newFood = new Food(colId, rowId, previousFoodPosition);
-    this.#food = newFood;
-  }
-
   update() {
     this.#snake.move();
     this.#ghostSnake.move();
     if (this.isSnakeGotFood()) {
-      this.generateNewFood();
+      this.#food.update();
       this.#snake.grow();
       this.#score.updateScore(5);
     }
   }
 
   isOver() {
-    return this.#snake.hasTouchTheWall() || this.#ghostSnake.hasTouchTheWall();
+    return this.#snake.hasTouchTheWall();
   }
 
   get newScore() {
