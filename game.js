@@ -53,6 +53,7 @@ class Game {
 
   update() {
     this.#snake.move();
+    this.#ghostSnake.wrap();
     this.#ghostSnake.move();
     if (this.isSnakeGotFood()) {
       this.generateNewFood();

@@ -62,4 +62,12 @@ class Snake {
     const head = otherSnake.getHead();
     return this.#positions.some(position => areTwoPointsEqual(position, head));
   }
+
+  wrap() {
+    this.#positions = this.#positions.map(position => {
+      const colId = (position[0] + NUM_OF_COLS) % NUM_OF_COLS;
+      const rowId = (position[1] + NUM_OF_ROWS) % NUM_OF_ROWS;
+      return [colId, rowId];
+    });
+  }
 }

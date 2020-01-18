@@ -119,12 +119,12 @@ const startGame = function(game) {
       return clearInterval(timeInterval);
     }
     rearrangeSetup(game);
-  }, 150);
+  }, 100);
 };
 
 const randomlyTurnSnake = game => {
   let x = Math.random() * 100;
-  if (x > 50) {
+  if (x > 80) {
     game.turnGhostSnake();
   }
 };
