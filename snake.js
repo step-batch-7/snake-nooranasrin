@@ -52,6 +52,12 @@ class Snake {
     this.#positions.unshift(this.#previousTail);
   }
 
+  isEat(food) {
+    const snakeHead = this.getHead();
+    const foodLocation = food.position;
+    return areTwoPointsEqual(snakeHead, foodLocation);
+  }
+
   isTouchTheBody() {
     const head = this.getHead();
     const body = this.location.slice(0, -1);

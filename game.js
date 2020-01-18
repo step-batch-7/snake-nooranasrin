@@ -35,12 +35,6 @@ class Game {
     this.#ghostSnake.turnRight();
   }
 
-  isSnakeGotFood() {
-    const snakeHead = this.#snake.getHead();
-    const foodLocation = this.#food.position;
-    return areTwoPointsEqual(snakeHead, foodLocation);
-  }
-
   get foodLocation() {
     return this.#food.position;
   }
@@ -55,10 +49,13 @@ class Game {
     this.#snake.move();
     this.#ghostSnake.wrap();
     this.#ghostSnake.move();
-    if (this.isSnakeGotFood()) {
+    if (this.#snake.isEat(this.#food)) {
       this.generateNewFood();
       this.#snake.grow();
       this.#score.updateScore(5);
+    }
+    if (this.#ghostSnake.isEat(this.#food)) {
+      this.generateNewFood();
     }
   }
 
@@ -78,5 +75,4 @@ class Game {
   get newScore() {
     return this.#score.newScore;
   }
-  x;
 }
