@@ -25,55 +25,12 @@ const createGrids = function() {
   }
 };
 
-const eraseTail = function(snake) {
-  let [colId, rowId] = snake.previousTail;
-  const cell = getCell(colId, rowId);
-  cell.classList.remove(snake.type);
-};
-
-const drawSnake = function(snake) {
-  snake.location.forEach(([colId, rowId]) => {
-    const cell = getCell(colId, rowId);
-    cell.classList.add(snake.type);
-  });
-};
-
-const drawFood = function(food) {
-  let [colId, rowId] = food.location;
-  const cell = getCell(colId, rowId);
-  cell.classList.add('food');
-};
-
-const eraseFood = function() {
-  const previousCell = document.querySelector('.food');
-  previousCell.classList.remove('food');
-};
-
-const displayScore = function(game) {
-  const score = game.newScore;
-  document.getElementById('score').innerText = score;
-};
-
 const renderFood = function(game) {
   let [colId, rowId] = game.foodLocation;
   const cell = getCell(colId, rowId);
-  if (![...cell.classList].includes('food')) {
-    eraseFood(game);
-    cell.classList.add('food');
-    const status = game.currentStatus;
-    drawFood(status.food);
-  }
-};
-
-const rearrangeSetup = function(game) {
-  const types = ['snake', 'ghostSnake'];
-  const status = game.currentStatus;
-  types.forEach(species => {
-    eraseTail(status[species]);
-    drawSnake(status[species]);
-  });
-  renderFood(game);
-  displayScore(game);
+  eraseFood();
+  cell.classList.add('food');
+  drawFood(game.currentStatus.food);
 };
 
 const handleKeyPress = function(event, game) {
@@ -106,10 +63,7 @@ const setup = game => {
   attachEventListeners(game);
   createGrids();
   game.generateNewFood();
-  const status = game.currentStatus;
-  drawSnake(status.snake);
-  drawSnake(status.ghostSnake);
-  drawFood(status.food);
+  drawBoard(game);
 };
 
 const startGame = function(game) {
