@@ -105,6 +105,7 @@ const initSnake = (direction, species) => {
 const setup = game => {
   attachEventListeners(game);
   createGrids();
+  game.generateNewFood();
   const status = game.currentStatus;
   drawSnake(status.snake);
   drawSnake(status.ghostSnake);
@@ -132,9 +133,7 @@ const randomlyTurnSnake = game => {
 const main = function() {
   const snake = initSnake(EAST, 'snake');
   const ghostSnake = initSnake(SOUTH, 'ghost');
-  const food = new Food(5, 5);
-  const score = new Score();
-  const game = new Game(snake, ghostSnake, food, score);
+  const game = new Game(snake, ghostSnake);
   setup(game);
   startGame(game);
   setInterval(randomlyTurnSnake, 1000, game);

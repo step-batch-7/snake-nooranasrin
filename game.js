@@ -9,11 +9,11 @@ class Game {
   #ghostSnake;
   #food;
   #score;
-  constructor(snake, ghostSnake, food, score) {
+  constructor(snake, ghostSnake) {
     this.#snake = snake;
     this.#ghostSnake = ghostSnake;
-    this.#food = food;
-    this.#score = score;
+    this.#score = new Score();
+    this.#food;
   }
 
   get currentStatus() {
